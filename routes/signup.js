@@ -15,13 +15,13 @@ router.post('/', async function (req, res, next) {
         client = await mongodClient.connect(url)
         let db = client.db("zen")
         let email= req.body.email;
-        let pass = req.body.password
+        let password = req.body.password
         let salt = await bcryptjs.genSalt(10)
         let hash = await bcryptjs.hash(req.body.password, salt)
-        pass = hash
+        password = hash
         await db.collection("users").insertOne({
             email,
-            pass,
+            password,
             
         })
 

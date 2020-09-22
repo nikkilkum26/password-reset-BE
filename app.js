@@ -11,7 +11,7 @@ let signinRouter = require('./routes/signin')
 
 var app = express();
 app.use(cors({
-  origin:"http://127.0.0.1:5501",
+  origin:"*",
 }))
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -34,7 +34,7 @@ router.post('/forgot_password', async function (req, res, next) {
         
         db.collection("users").findOneAndUpdate({ email: req.body.email }, { $set: { reset_token: passreset } })
         const encryptedString = cryptr.encrypt(email);
-        let reset_url = `http://127.0.0.1:5501/reset.html?${encryptedString}?`
+        let reset_url = `https://nikkil-nodejs-password-reset.netlify.app/reset.html?${encryptedString}?`
         let sendMail = {
           from: 'nikkil26kumar26@gmail.com',
           to: req.body.email,
