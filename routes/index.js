@@ -7,6 +7,7 @@ const sendgridT = require('nodemailer-sendgrid-transport')
 const crypto = require('crypto')
 const bcrypt = require('bcrypt');
 const Cryptr = require('cryptr');
+const { getMaxListeners } = require('../app');
 const cryptr = new Cryptr('myTotalySecretKey');
 const transporter = nodemailer.createTransport(sendgridT({
   auth: {
@@ -31,11 +32,18 @@ router.post('/forgot_password', async function (req, res, next) {
         }
 
         const passreset = Buffer.toString("hex");
-        
+       
+        let transporter = nodemailer.createTransport({
+          service: 'gmail',
+                    auth: {
+            user: 'sndmail26@gmail.com', // generated ethereal user
+            pass: 'sendmailtoeveryone', // generated ethereal password
+          },
+        });
         db.collection("users").findOneAndUpdate({ email: req.body.email }, { $set: { reset_token: passreset } })
         const encryptedString = cryptr.encrypt(email);
         let reset_url = `https://nikkil-nodejs-password-reset.netlify.app/reset.html?${encryptedString}?`
-        let sendMail = {
+         sendMail={
           from: 'nikkil26kumar26@gmail.com',
           to: req.body.email,
           subject: 'Password reset',
